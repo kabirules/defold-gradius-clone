@@ -1,0 +1,37 @@
+function init(self)
+	msg.post("virtual_gamepad", "register")
+	self.speed = vmath.vector3()
+	self.moving_up = false
+	self.moving_down = false
+end
+
+function final(self)
+	msg.post("virtual_gamepad", "unregister")
+end
+
+function update(self, dt)
+	go.set_position(go.get_position() + self.speed * dt)
+	if self.speed.y > 0 and not self.moving_up then
+		sprite.play_flipbook("#player", hash("moving_up"))
+		self.moving_up = true
+		self.moving_down = false
+	elseif self.speed.y < 0  and not self.moving_down then
+		sprite.play_flipbook("#player", hash("moving_down"))
+		self.moving_up = false
+		self.moving_down = true
+	elseif self.speed.y == 0 then
+		sprite.play_flipbook("#player", hash("player1"))
+		self.moving_up = false
+		self.moving_down = false
+	end		
+	print(self.speed.y)
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("button_a") and message.released then
+		self.firing = true
+	elseif message_id == hash("analog") then
+		self.speed.x = message.x * 100
+		self.speed.y = message.y * 100
+	end
+end
