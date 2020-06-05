@@ -18,7 +18,7 @@ local function on_analog(self, touch, control)
 		local dir = vmath.normalize(diff)
 		local distance = vmath.length(diff)
 		if distance > 0 then
-			local radius = 80
+			local radius = 40
 			if distance > radius then
 				touch_position = control.node_start_position - dir * radius
 				distance = radius
