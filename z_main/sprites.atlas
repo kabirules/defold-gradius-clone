@@ -18,6 +18,10 @@ images {
   image: "/images/player5.png"
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
+images {
+  image: "/images/rocket.png"
+  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+}
 animations {
   id: "moving_up"
   images {

@@ -24,13 +24,20 @@ function update(self, dt)
 		sprite.play_flipbook("#player", hash("player1"))
 		self.moving_up = false
 		self.moving_down = false
-	end		
+	end
+	if self.firing then
+		local angle = math.atan2(y, x)
+		local rot = vmath.quat_rotation_z(angle)
+		local props = { dir = rocket_dir }
+		factory.create("#rocketfactory", nil, rot, props)
+	end
+	self.firing = false	
 end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("button_a") and message.released then
 		self.firing = true
-		print("A")
+		print("A pressed")
 	elseif message_id == hash("analog") then
 		self.speed.x = message.x * self.current_speed
 		self.speed.y = message.y * self.current_speed
