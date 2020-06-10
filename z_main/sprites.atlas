@@ -22,6 +22,18 @@ images {
   image: "/images/rocket.png"
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
+images {
+  image: "/images/enemy1_1.png"
+  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+}
+images {
+  image: "/images/enemy1_2.png"
+  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+}
+images {
+  image: "/images/enemy1_3.png"
+  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+}
 animations {
   id: "moving_up"
   images {
@@ -57,6 +69,25 @@ animations {
   }
   playback: PLAYBACK_ONCE_FORWARD
   fps: 10
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "rotating_enemy"
+  images {
+    image: "/images/enemy1_1.png"
+    sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+  }
+  images {
+    image: "/images/enemy1_2.png"
+    sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+  }
+  images {
+    image: "/images/enemy1_3.png"
+    sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
   flip_horizontal: 0
   flip_vertical: 0
 }
