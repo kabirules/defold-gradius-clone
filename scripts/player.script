@@ -35,7 +35,6 @@ end
 function on_message(self, message_id, message, sender)
 	if message_id == hash("button_a") and message.released then
 		self.firing = true
-		print("A pressed")
 	elseif message_id == hash("analog") then
 		self.speed.x = message.x * self.current_speed
 		self.speed.y = message.y * self.current_speed
