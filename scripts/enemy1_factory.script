@@ -1,12 +1,15 @@
 local counter = 0
 local wait = 50
-local wave1_enemies = 3
-local wave1_finished = false
-local wave2_enemies = 3
-local wave2_finished = false
+local time_for_wave1 = 100
+local time_for_wave2 = 400
+local wave1_enemies = 6
+local wave1_active = false
+local wave2_enemies = 6
+local wave2_active = false
 
-local function createOneEnemy1()
+local function createOneEnemy1(height)
 	local p = go.get_position()
+	p.y = height
 	local component = "#enemy1_factory"
 	factory.create(component, p)
 end
@@ -22,24 +25,31 @@ end
 
 function update(self, dt)
 	counter = counter + 1
-	if not wave1_finished and wave1_enemies > 0 then
+	
+	if time_for_wave1 == counter then
+		wave1_active = true
+	elseif time_for_wave2 == counter then
+		wave2_active = true
+	end
+	
+	if wave1_active then
 		if counter % wait == 0 then
-			createOneEnemy1()
+			createOneEnemy1(300)
 			wave1_enemies = wave1_enemies - 1
 		end
 		if wave1_enemies == 0 then
-			wave1_finished = true
-			counter = 1
+			wave1_active = false
 		end
 	end
-	if wave1_finished and not wave2_finished then
+	
+	if wave2_active then
 		if counter % wait == 0 then
-			createOneEnemy1()
+			createOneEnemy1(150)
 			wave2_enemies = wave2_enemies - 1
 		end
 		if wave2_enemies == 0 then
-			wave2_finished = true
-		end		
+			wave2_active = false
+		end
 	end
 	
 end
