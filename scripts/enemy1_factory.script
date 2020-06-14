@@ -1,15 +1,18 @@
 local counter = 0
-local wait = 50
-local time_for_wave1 = 100
-local time_for_wave2 = 400
-local wave1_enemies = 6
-local wave1_active = false
-local wave2_enemies = 6
-local wave2_active = false
+local wait = 50 -- pause between enemies of every wave
+local wave1 = {}
+wave1["time_for_wave"] = 100
+wave1["wave_enemies"] = 6
+wave1["active"] = false
+wave1["position"] = vmath.vector3(650, 300, 0)
+local wave2 = {}
+wave2["time_for_wave"] = 400
+wave2["wave_enemies"] = 6
+wave2["active"] = false
+wave2["position"] = vmath.vector3(650, 150, 0)
+local waves_array = {wave1, wave2}
 
-local function createOneEnemy1(height)
-	local p = go.get_position()
-	p.y = height
+local function createOneEnemy1(p)
 	local component = "#enemy1_factory"
 	factory.create(component, p)
 end
@@ -25,33 +28,24 @@ end
 
 function update(self, dt)
 	counter = counter + 1
-	
-	if time_for_wave1 == counter then
-		wave1_active = true
-	elseif time_for_wave2 == counter then
-		wave2_active = true
-	end
-	
-	if wave1_active then
-		if counter % wait == 0 then
-			createOneEnemy1(300)
-			wave1_enemies = wave1_enemies - 1
-		end
-		if wave1_enemies == 0 then
-			wave1_active = false
+	-- First, iterate to see if we have to activate a wave
+	for i = 1, table.getn(waves_array) do
+		if counter == waves_array[i]["time_for_wave"] then
+			waves_array[i]["active"] = true
 		end
 	end
-	
-	if wave2_active then
-		if counter % wait == 0 then
-			createOneEnemy1(150)
-			wave2_enemies = wave2_enemies - 1
-		end
-		if wave2_enemies == 0 then
-			wave2_active = false
+	-- Second, if there is some active wave, 
+	for i = 1, table.getn(waves_array) do
+		if waves_array[i]["active"] then
+			if counter % wait == 0 then
+				createOneEnemy1(waves_array[i]["position"])
+				waves_array[i]["wave_enemies"] = waves_array[i]["wave_enemies"] - 1
+			end
+			if waves_array[i]["wave_enemies"] == 0 then
+				waves_array[i]["active"] = false
+			end
 		end
 	end
-	
 end
 
 function on_message(self, message_id, message, sender)
