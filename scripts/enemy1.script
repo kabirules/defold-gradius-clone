@@ -10,4 +10,7 @@ end
 function update(self, dt)
 	self.speed.x = self.speed.x + 1.5
 	go.set_position(go.get_position() - self.speed * dt)
+	if go.get_position().x < -10 then
+		go.delete()
+	end
 end
