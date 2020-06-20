@@ -38,5 +38,11 @@ function on_message(self, message_id, message, sender)
 	elseif message_id == hash("analog") then
 		self.speed.x = message.x * self.current_speed
 		self.speed.y = message.y * self.current_speed
-	end
+	elseif message_id == hash("collision_response") then
+		print('somebody hit me')
+		--delete the player, play explosion effect (status?)
+		go.delete()
+		-- delete the enemy, play explosion effect
+		go.delete(message.other_id)
+	end		
 end
