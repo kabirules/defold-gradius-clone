@@ -26,9 +26,11 @@ end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("collision_response") then
-		--delete the rocket
-		go.delete()
-		-- delete the enemy, play explosion effect
-		go.delete(message.other_id)
+		if message.other_group == hash('enemy') then
+			--delete the rocket
+			go.delete()
+			-- delete the enemy, play explosion effect
+			go.delete(message.other_id)
+		end
 	end
 end
